@@ -13,5 +13,3 @@ venv/
 .ruff_cache/
 
 *.log
-
-app/checkpoints/
