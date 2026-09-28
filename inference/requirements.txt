@@ -1,11 +1,13 @@
-efficientnet_pytorch==0.7.1
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+efficientnet-pytorch==0.7.1
 Flask==3.1.2
+Flask-Cors==6.0.1
 google-genai==1.46.0
+gunicorn==23.0.0
 Pillow==12.0.0
-protobuf==6.33.2
 python-dotenv==1.2.1
-pytorch_lightning==2.5.5
-Requests==2.32.5
-torch==2.9.0+cu126
+pytorch-lightning==2.5.5
+torch==2.9.0+cpu
 torchmetrics==1.8.2
-torchvision==0.24.0+cu126
+torchvision==0.24.0+cpu

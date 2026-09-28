@@ -6,6 +6,11 @@ load_dotenv()
 class EnvironmentConfig:
     node_env = os.getenv('NODE_ENV', 'development')
     port = int(os.getenv('PORT', 8000))
+    allowed_origins = [
+        origin.strip()
+        for origin in os.getenv('ALLOWED_ORIGINS', 'http://localhost:5173').split(',')
+        if origin.strip()
+    ]
     aistudio_api_key = os.getenv('AISTUDIO_API_KEY')
     aistudio_model = os.getenv('AISTUDIO_MODEL')
     aistudio_prompt = """
@@ -21,7 +26,7 @@ class EnvironmentConfig:
             "is_organic": [boolean],
             "is_recyclable": [boolean],
             "is_compostable": [boolean],
-            "is_hazardous": [boolean],
+            "is_hazardous": [boolean]
         }
     }
     """

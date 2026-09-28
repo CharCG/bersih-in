@@ -5,9 +5,10 @@ export const envConfig = {
     server: {
         nodeEnv: process.env.NODE_ENV || 'development',
         port: Number(process.env.PORT) || 5000,
-    },
-    database: {
-        mongoUri: process.env.MONGO_URI || 'mongodb://localhost:27017/'
+        allowedOrigins: (process.env.ALLOWED_ORIGINS || 'http://localhost:5173')
+            .split(',')
+            .map(origin => origin.trim())
+            .filter(Boolean),
     },
     services: {
         wasteClassifierUrl: process.env.WASTE_CLASSIFIER_URL || 'http://localhost:8000'

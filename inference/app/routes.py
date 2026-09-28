@@ -1,18 +1,17 @@
 import json
 from io import BytesIO
-
 import torch
 from flask import Blueprint, jsonify, request
 from google import genai
 from PIL import Image
 from torchvision import transforms
-
-from app.config.env import EnvironmentConfig
-from app.models.model import load_model
+from app.env import EnvironmentConfig
+from app.model import load_model
 
 api = Blueprint('api', __name__)
 
-model = load_model('app/models/checkpoints/epoch=38-step=44109.ckpt')
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+model = load_model().to(device)
 classes = ['biological', 'cardboard', 'clothes', 'electronics', 'glass', 'metal', 'paper', 'plastic', 'shoes', 'trash']
 
 transform = transforms.Compose([
@@ -24,7 +23,7 @@ transform = transforms.Compose([
 genai_client = genai.Client(api_key=EnvironmentConfig.aistudio_api_key)
 
 
-@api.route('/classify', methods=['POST'])
+@api.post('/classify')
 def classify():
     if 'file' not in request.files:
         return jsonify({ 'success': False, 'statusCode': 400, 'message': 'BadRequest', 'data': {} }), 400
@@ -34,25 +33,22 @@ def classify():
         return jsonify({ 'success': False, 'statusCode': 400, 'message': 'BadRequest', 'data': {} }), 400
 
     try:
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
         image = Image.open(BytesIO(file.read())).convert('RGB')
         image_tensor = transform(image).unsqueeze(0).to(device)
-        model.to(device)
 
         with torch.no_grad():
             outputs = model(image_tensor)
             probabilities = torch.nn.functional.softmax(outputs, dim=1)
             confidence, predicted = torch.max(probabilities, 1)
 
-        metadata = genai_client.models.generate_content(
+        metadata_response = genai_client.models.generate_content(
             model=EnvironmentConfig.aistudio_model,
             contents=[EnvironmentConfig.aistudio_prompt, image]
         )
-        metadata = metadata.text
-        if metadata.startswith('```json') and metadata.endswith('```'):
-            metadata = metadata[7:-3]
-        metadata = json.loads(metadata)
+        metadata_text = metadata_response.text or '{}'
+        if metadata_text.startswith('```json') and metadata_text.endswith('```'):
+            metadata_text = metadata_text[7:-3]
+        metadata = json.loads(metadata_text)
 
         return jsonify({
             'success': True,

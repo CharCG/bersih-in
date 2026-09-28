@@ -10,7 +10,7 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction) =
         const ip = req.ip;
         const status = res.statusCode;
         const time = `${Date.now() - startTime}ms`;
-        console.log(`[${timestamp}] ${method} ${url} ${status} ${time} ${ip}  `)
+        console.log(`[${timestamp}] ${method} ${url} ${status} ${time} ${ip}`)
     });
 
     next();

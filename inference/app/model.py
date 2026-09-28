@@ -1,12 +1,12 @@
-import os
+from pathlib import Path
+import pytorch_lightning as pl
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-import pytorch_lightning as pl
-
-from torchmetrics.classification import MulticlassAccuracy
 from efficientnet_pytorch import EfficientNet
+from torchmetrics.classification import MulticlassAccuracy
+
+CHECKPOINT_PATH = Path(__file__).resolve().parent / 'checkpoints' / 'epoch=38-step=44109.ckpt'
 
 class EfficientLite(pl.LightningModule):
     def __init__(self, lr: float, num_classes: int, *args, **kwargs):
@@ -14,7 +14,7 @@ class EfficientLite(pl.LightningModule):
 
         self.save_hyperparameters()
 
-        self.model = EfficientNet.from_pretrained('efficientnet-b0')
+        self.model = EfficientNet.from_name('efficientnet-b0')
         self.model._fc = nn.Linear(self.model._fc.in_features, num_classes)
 
         self.train_accuracy = MulticlassAccuracy(num_classes)
@@ -30,43 +30,32 @@ class EfficientLite(pl.LightningModule):
         return [optimizer], [scheduler]
 
     def training_step(self, batch, batch_idx):
-        X, y = batch
-        logits = self.model(X)
-        loss = F.cross_entropy(logits, y)
-
-        self.train_accuracy(torch.argmax(logits, dim=1), y)
-
+        inputs, labels = batch
+        logits = self.model(inputs)
+        loss = F.cross_entropy(logits, labels)
+        self.train_accuracy(torch.argmax(logits, dim=1), labels)
         self.log('train_loss', loss, on_epoch=True)
         self.log('train_acc', self.train_accuracy, on_step=False, on_epoch=True, prog_bar=True)
-
         return loss
 
     def validation_step(self, batch, batch_idx):
-        X, y = batch
-        logits = self.model(X)
-        loss = F.cross_entropy(logits, y)
-
-        self.val_accuracy(torch.argmax(logits, dim=1), y)
-
+        inputs, labels = batch
+        logits = self.model(inputs)
+        loss = F.cross_entropy(logits, labels)
+        self.val_accuracy(torch.argmax(logits, dim=1), labels)
         self.log('val_loss', loss, on_epoch=True)
         self.log('val_acc', self.val_accuracy, on_step=False, on_epoch=True, prog_bar=True)
 
     def test_step(self, batch, batch_idx):
-        X, y = batch
-        logits = self.model(X)
-        loss = F.cross_entropy(logits, y)
-
-        self.test_accuracy(torch.argmax(logits, dim=1), y)
-
+        inputs, labels = batch
+        logits = self.model(inputs)
+        loss = F.cross_entropy(logits, labels)
+        self.test_accuracy(torch.argmax(logits, dim=1), labels)
         self.log('test_loss', loss, on_epoch=True)
         self.log('test_acc', self.test_accuracy, on_step=False, on_epoch=True, prog_bar=True)
 
-    def predict_step(self, batch, batch_idx):
-        X, y = batch
-        preds = self.model(X)
-        return preds
 
-def load_model(checkpoint_path):
-    model = EfficientLite.load_from_checkpoint(checkpoint_path)
+def load_model():
+    model = EfficientLite.load_from_checkpoint(CHECKPOINT_PATH)
     model.eval()
     return model

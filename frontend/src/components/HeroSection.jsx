@@ -2,7 +2,7 @@ import imgMascot from '../assets/mascot-rotated.png';
 
 const HeroSection = () => {
   return (
-    <section className='hero-container'>
+    <section className='hero-container' id='home'>
       <div className='hero-top'>
         <div className='hero-title'><h1>Pioneering a Cleaner Tomorrow</h1></div>
         <div className='hero-info'>
@@ -19,7 +19,7 @@ const HeroSection = () => {
             >
               Scan Now
             </button>
-            <a href='http://localhost:5000/docs' target='_blank'><button className='btn-learn'>Learn More</button></a>
+            <a className='btn-learn' href='http://localhost:3000/docs' target='_blank' rel='noreferrer'>Learn More</a>
           </div>
         </div>
       </div>

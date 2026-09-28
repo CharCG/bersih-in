@@ -14,4 +14,4 @@ venv/
 
 *.log
 
-app/models/checkpoints/
+app/checkpoints/
