@@ -42,7 +42,7 @@
         }
       }
     },
-    "/v1/classify": {
+    "/classify": {
       "post": {
         "summary": "",
         "description": "",

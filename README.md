@@ -7,12 +7,12 @@
 <div align="center">
 	<a><img src="https://img.shields.io/badge/React-19.x-61DAFB?logo=react&logoColor=black"></a>
 	<a><img src="https://img.shields.io/badge/Vite-7.x-9135FF?logo=vite&logoColor=white"></a>
+	<a><img src="https://img.shields.io/badge/Node.js-24.x-5FA04E?logo=nodedotjs&logoColor=white"></a>
 	<a><img src="https://img.shields.io/badge/Express-5.x-000000?logo=express"></a>
 	<a><img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white"></a>
-	<a><img src="https://img.shields.io/badge/Mongoose-9.x-880000?logo=mongoose"></a>
-	<a><img src="https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white"></a>
 	<a><img src="https://img.shields.io/badge/Flask-3.x-3BABC3?logo=flask"></a>
-	<a><img src="https://img.shields.io/badge/PyTorch-2.x-EE4C2C?logo=pytorch&logoColor=white"></a>
+	<a><img src="https://img.shields.io/badge/PyTorch-2.9-EE4C2C?logo=pytorch&logoColor=white"></a>
+	<a><img src="https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white"></a>
 </div>
 
 ## Description
@@ -21,12 +21,13 @@
 
 ## Documentation
 
+- [Description](#description)
+- [Features](#features)
+
 ## Features
 
-- [Features](#features)
-- [Getting Started](#getting-started)
-- [Tech Stack](#tech-stack)
-
-## Getting Started
-
-## Tech Stack
+- **Waste Classification**: Identifies waste across 10 categories using AI.
+- **Flexible Image Input**: Accepts file uploads, image URLs, and camera captures.
+- **Confidence Score**: Shows the model's confidence for each prediction.
+- **Waste Properties**: Reports whether waste is organic, recyclable, compostable, or hazardous.
+- **Environmental Metrics**: Estimates decomposition time, carbon emissions, water footprint, and embodied energy.

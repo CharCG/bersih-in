@@ -4,7 +4,6 @@ import multer from 'multer';
 import FormData from 'form-data';
 
 import { envConfig } from '../config/env.config';
-import History from '../models/History.model';
 
 const imageClassify = [
     multer({ limits: { fileSize: 25 * 1024 * 1024 } }).single('file'),
@@ -27,24 +26,9 @@ const imageClassify = [
                 formData.append('file', buffer, fileName);
             };
 
-            const response = await axios.post(`${envConfig.services.wasteClassifierUrl}/v2/classify`, formData, {
+            const response = await axios.post(`${envConfig.services.wasteClassifierUrl}/api/classify`, formData, {
                 headers: formData.getHeaders()
             });
-
-            const { prediction, confidence, metadata } = response.data?.data;
-
-            if (History.db.readyState === 1) {
-                const historyEntry = new History({
-                    imageBytes: imageFile?.buffer,
-                    prediction: prediction,
-                    confidence: confidence,
-                    metadata: {
-                        metrics: metadata.metrics,
-                        properties: metadata.properties
-                    }
-                });
-                await historyEntry.save();
-            };
 
             return res.status(200).json(response.data);
         } catch (error) {

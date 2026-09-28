@@ -2,7 +2,8 @@ import { useState, useRef } from 'react';
 import axios from 'axios';
 import imgUpload from '../assets/icon-upload.png';
 
-const classifyApiUrl = import.meta.env.VITE_API_URL;
+const apiBaseUrl = import.meta.env.VITE_API_URL.replace(/\/$/, '');
+const classifyApiUrl = `${apiBaseUrl}/classify`;
 
 const UploadSection = () => {
   const [inputType, setInputType] = useState('drag');
