@@ -27,7 +27,7 @@ const imageClassify = [
                 formData.append('file', buffer, fileName);
             };
 
-            const response = await axios.post(`${envConfig.services.wasteClassifierUrl}/v2/classify`, formData, {
+            const response = await axios.post(`${envConfig.services.wasteClassifierUrl}/api/classify`, formData, {
                 headers: formData.getHeaders()
             });
 

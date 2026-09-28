@@ -28,7 +28,7 @@ const Footer = () => {
               <h4>Product</h4>
               <ul>
                 <li><a href='http://github.com/charcg/bersih-in' target='_blank'>Changelog</a></li>
-                <li><a href='http://localhost:5000/api/v1' target='_blank'>API</a></li>
+                <li><a href='http://localhost:5000/api' target='_blank'>API</a></li>
                 <li><a href=''>Model</a></li>
               </ul>
             </div>

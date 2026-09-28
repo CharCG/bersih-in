@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import v1Router from './v1';
+import classifyController from '../controllers/classify.controller';
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ router.get('/', (req: Request, res: Response) => {
         statusCode: 200,
         message: 'Welcome to Bersih-In API!',
         data: {
-            versions: ['health', 'v1']
+            endpoints: ['health', 'classify']
         }
     });
 });
@@ -25,6 +25,6 @@ router.get('/health', (req: Request, res: Response) => {
     });
 });
 
-router.use('/v1', v1Router);
+router.post('/classify', classifyController.imageClassify);
 
 export default router;
