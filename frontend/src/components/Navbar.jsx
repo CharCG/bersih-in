@@ -35,7 +35,7 @@ const Navbar = () => {
         <div className={`nav-menu${menuOpen ? ' nav-menu-open' : ''}`} id='nav-menu'>
           <ul className='nav-links'>
             <li><a href='#home' onClick={closeMenu}>Home</a></li>
-            <li><a href='http://localhost:3000/docs' target='_blank' rel='noreferrer' onClick={closeMenu}>Resources</a></li>
+            <li><a href='http://github.com/charcg/bersih-in' target='_blank' rel='noreferrer' onClick={closeMenu}>Resources</a></li>
           </ul>
           <button className='btn-try-now' type='button' onClick={scrollToUpload}>Try Now</button>
         </div>
